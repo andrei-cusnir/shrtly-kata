@@ -3,7 +3,9 @@
 This repository contains a refactoring kata. It's supposed to simulate the takeover and delivery of new features in a legacy project.
 
 The company you recently started working for, had accumulated over the years a lot of websites, many of which have very long paths, and use inconsistent conventions to defining the routes.
+
 A while ago one of the junior developers wanted to be able to share links to websites with his colleagues so he started working on a applicaiton that would shorten the links he wanted to share the links would fit better in chats and emails. Unfortunately the original developer has left the company before he could finish this service.
+
 Now one of the managers wants this service to be able to share pretty links with clients, and he asked you to get this application up and running.
 
 ## Functional requirements
