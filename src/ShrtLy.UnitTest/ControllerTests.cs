@@ -1,26 +1,27 @@
 using Moq;
 using NUnit.Framework;
 using ShrtLy.Api.Controllers;
-using ShrtLy.Api.ViewModels;
-using ShrtLy.BLL;
+using ShrtLy.BLL.Modules.Shortening.Dtos;
+using ShrtLy.BLL.Modules.Shortening.Services;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ShrtLy.UnitTest
 {
     public class ControllerTests
     {
-        public LinksController controller;
+        public LinksController controller { get; set; }
         public Mock<IShorteningService> serviceMock;
 
-        public static List<LinkViewModel> viewModels = new List<LinkViewModel>
+        public static List<LinkDto> viewModels = new List<LinkDto>
             {
-                new LinkViewModel
+                new LinkDto
                 {
                     Id = 1,
                     ShortUrl = "short-url-1",
                     Url = "url-1"
                 },
-                new LinkViewModel
+                new LinkDto
                 {
                     Id = 2,
                     ShortUrl = "short-url-2",
@@ -52,29 +53,29 @@ namespace ShrtLy.UnitTest
         }
 
         [Test]
-        public void GetShortLink_ProcessLinkHasBeenCalled()
+        public async Task GetShortLink_ProcessLinkHasBeenCalled()
         {
-            controller.GetShortLink("http://google.com");
+            await controller.CreateShortLink("http://google.com",default);
 
-            serviceMock.Verify(x => x.ProcessLink("http://google.com"), Times.Once);
+            serviceMock.Verify(x => x.CreateNewOrGetExisting("http://google.com", default), Times.Once);
         }
 
         [Test]
         public void GetShortLink_ProcessLinksHasBeenCalled()
         {
-            serviceMock.Setup(x => x.GetShortLinks()).Returns(new List<LinkDto>());
+            serviceMock.Setup(x => x.GetAll(default));
 
-            controller.GetShortLinks();
+            controller.GetShortLinks(default);
 
-            serviceMock.Verify(x => x.GetShortLinks(), Times.Once);
+            serviceMock.Verify(x => x.GetAll(default), Times.Once);
         }
 
         [Test]
         public void GetShortLinks_AllLinksAreCorrect()
         {
-            serviceMock.Setup(x => x.GetShortLinks()).Returns(new List<LinkDto>());
+            serviceMock.Setup(x => x.GetAll(default));
 
-            controller.GetShortLinks();
+            controller.GetShortLinks(default);
 
             for (int i = 0; i < linkDtos.Count; i++)
             {

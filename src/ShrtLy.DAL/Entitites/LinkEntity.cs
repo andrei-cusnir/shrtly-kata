@@ -1,4 +1,4 @@
-﻿namespace ShrtLy.DAL
+﻿namespace ShrtLy.DAL.Entitites
 {
     public class LinkEntity : Entity
     {
